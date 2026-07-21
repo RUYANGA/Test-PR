@@ -1,14 +1,15 @@
 # Test-PR
 
-A FastAPI-based user registration service.
+A FastAPI-based user authentication service.
 
 ## Features
 
 - **POST /register** — Register a new user (username, email, password). Returns 201 with user ID.
+- **POST /login** — Authenticate with email and password. Returns user details on success.
 - **GET /users** — List all registered users.
 - **GET /users/{user_id}** — Retrieve a single user by ID.
 
-Duplicate emails and usernames are rejected with a `400` error.
+Duplicate emails and usernames are rejected with a `400` error. Invalid login returns `401`.
 
 ## Setup
 

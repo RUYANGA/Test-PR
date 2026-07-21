@@ -9,10 +9,18 @@ class UserRegister(BaseModel):
     email: EmailStr
     password: str
 
+class UserLogin(BaseModel):
+    email: EmailStr
+    password: str
+
 class UserResponse(BaseModel):
     id: str
     username: str
     email: str
+
+class LoginResponse(BaseModel):
+    message: str
+    user: UserResponse
 
 users: list[dict] = []
 
@@ -32,6 +40,13 @@ def register(user: UserRegister):
     }
     users.append(new_user)
     return new_user
+
+@app.post("/login", response_model=LoginResponse)
+def login(credentials: UserLogin):
+    for u in users:
+        if u["email"] == credentials.email and u["password"] == credentials.password:
+            return {"message": "Login successful", "user": u}
+    raise HTTPException(status_code=401, detail="Invalid email or password")
 
 @app.get("/users", response_model=list[UserResponse])
 def list_users():
